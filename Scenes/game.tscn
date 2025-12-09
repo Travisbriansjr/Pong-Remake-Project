@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://4olyjs2glwvx"]
+
+[ext_resource type="PackedScene" uid="uid://bgqnjkxp33ioq" path="res://Scenes/player.tscn" id="1_eyj0j"]
+[ext_resource type="PackedScene" uid="uid://k62th385fm0x" path="res://Scenes/ball.tscn" id="2_qxrlw"]
+[ext_resource type="PackedScene" uid="uid://bkpyygo7exjr4" path="res://Scenes/enemy.tscn" id="3_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://1cacgehoi8em" path="res://Scenes/score.tscn" id="4_3dryh"]
+[ext_resource type="Script" uid="uid://i1qepx6215pu" path="res://Scripts/EnemyScore.gd" id="6_i6g32"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ebmjs"]
+distance = -4.5146675
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_eyj0j")]
+position = Vector2(-200, 0)
+collision_mask = 4
+Speed = 6000.0
+
+[node name="Ball" parent="." instance=ExtResource("2_qxrlw")]
+
+[node name="Enemy" parent="." node_paths=PackedStringArray("ball") instance=ExtResource("3_wrm1d")]
+position = Vector2(200, 0)
+ball = NodePath("../Ball")
+
+[node name="Score" parent="." instance=ExtResource("4_3dryh")]
+position = Vector2(-310, -250)
+
+[node name="EnemyScore" parent="." instance=ExtResource("4_3dryh")]
+position = Vector2(190, -240)
+script = ExtResource("6_i6g32")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.55, 1.25)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 250)
+collision_layer = 4
+collision_mask = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+scale = Vector2(5.975, 2.215)
+shape = SubResource("WorldBoundaryShape2D_ebmjs")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(0, -250)
+collision_layer = 4
+collision_mask = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+rotation = -3.1415927
+scale = Vector2(5.975, 2.215)
+shape = SubResource("WorldBoundaryShape2D_ebmjs")
+
+[connection signal="EnemyScore" from="Ball" to="EnemyScore" method="_on_ball_enemy_score"]
+[connection signal="Score" from="Ball" to="Score" method="_on_ball_score"]

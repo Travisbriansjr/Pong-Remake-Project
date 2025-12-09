@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://1cacgehoi8em"]
+
+[ext_resource type="Script" uid="uid://d2x4gesoqmko" path="res://Scripts/score.gd" id="1_0f7a8"]
+
+[node name="Score" type="Node2D"]
+script = ExtResource("1_0f7a8")
+
+[node name="ScoreText" type="Label" parent="."]
+offset_right = 124.0
+offset_bottom = 110.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
